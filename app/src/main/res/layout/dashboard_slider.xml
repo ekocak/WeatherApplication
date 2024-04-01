@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -15,13 +16,13 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         >
         <TextView
+            android:id="@+id/tv_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@{weatherResponse.country}"
             android:textColor="@color/black"
@@ -29,16 +30,21 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view_title"
+            android:id="@+id/tv_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@{weatherResponse.data.weather[0].date}"
+            android:text="@{weatherResponse.data.weather[0].mintempC}"
             android:textColor="@color/black"
-            android:textSize="27sp"
+            android:textSize="40sp"
             android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_dashboard_daily_weathers"
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_dashboard_weather"/>
 
 
     </LinearLayout>

@@ -21,6 +21,7 @@ data class RequestResponse(
     val type: String, val query: String):Serializable
 data class Weather(
     val date: String,
+    @SerializedName("type")
     val maxtempC: String,
     val mintempC: String,
 ):Serializable

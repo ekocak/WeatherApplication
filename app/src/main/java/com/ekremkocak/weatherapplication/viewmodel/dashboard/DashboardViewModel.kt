@@ -6,8 +6,10 @@ import com.ekremkocak.weatherapplication.data.network.response.weather.WeatherRe
 import com.ekremkocak.weatherapplication.data.rp.WeatherRepository
 import com.ekremkocak.weatherapplication.databinding.DashboardSliderBinding
 import com.ekremkocak.weatherapplication.utils.CoroutineExceptionHandler
+import com.ekremkocak.weatherapplication.view.dashboard.DashboardFragment
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,10 +19,11 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(private val weatherRepository: WeatherRepository) :
     ViewModel() {
 
+    private lateinit var job: Job
     sealed class ViewState {
         class ShowLoading(val isShow: Boolean) : ViewState()
         class ShowErrorMessage(val message: String) : ViewState()
-        class OnGetted(val response: WeatherResponse) : ViewState()
+        class OnLoaded(val response: WeatherResponse) : ViewState()
         object Empty : ViewState()
     }
 
@@ -29,22 +32,28 @@ class DashboardViewModel @Inject constructor(private val weatherRepository: Weat
 
 
 
-    fun getContryWeather(weatherResponse: WeatherResponse , binding: DashboardSliderBinding) {
-        viewModelScope.launch(CoroutineExceptionHandler.handler) {
+    fun getContryWeather(weatherResponse: WeatherResponse , binding: DashboardSliderBinding,dashboardFragment: DashboardFragment) {
+        job = viewModelScope.launch(CoroutineExceptionHandler.handler) {
             _weatherUIState.value = ViewState.ShowLoading(true)
             weatherRepository.getWeather(weatherResponse.country).apply {
                 _weatherUIState.value = ViewState.ShowLoading(false)
-
-
                 if (this.isSuccessful) {
-                    _weatherUIState.value = ViewState.OnGetted(this.body()!!)
+                    _weatherUIState.value = ViewState.OnLoaded(this.body()!!)
                     weatherResponse.data = this.body()!!.data
-                    binding.weatherResponse = this.body()
+                    binding.weatherResponse = weatherResponse
+                    dashboardFragment.viewPagerAdapter.setUpRecyclerView(weatherResponse.data!!.weather,binding.rvDashboardDailyWeathers)
+
                 } else {
                     _weatherUIState.value = ViewState.ShowErrorMessage(this.message())
                 }
-                println("response : "+this.body())
             }
+
         }
+    }
+    override fun onCleared() {
+        if (this::job.isInitialized) {
+            job.cancel()
+        }
+        super.onCleared()
     }
 }

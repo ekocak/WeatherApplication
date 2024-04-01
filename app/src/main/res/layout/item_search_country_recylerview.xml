@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="country"
+            name="result"
             type="com.ekremkocak.weatherapplication.data.network.response.search.Result" />
         <variable
             name="clickListener"
@@ -29,8 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:onClick="@{() -> clickListener.onClick(country)}"
-            android:text="@{String.valueOf(country.country.get(0).value)}"
+            android:onClick="@{() -> clickListener.onClick(result)}"
+            android:text="@{result.areaName.get(0).value}"
             android:focusable="true" />
 
         <View
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_stroke_view_green"
-            android:visibility="@{country.enable ? View.VISIBLE : View.GONE}"
+            android:visibility="@{result.enable ? View.VISIBLE : View.GONE}"
             android:layout_width="10dp"
             android:layout_height="10dp"/>
 

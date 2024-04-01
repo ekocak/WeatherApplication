@@ -9,20 +9,20 @@ import retrofit2.http.*
 interface AppApi {
 
 
-    @GET(Constants.COUNTRY_WEATHER_GET)
+    @GET(Constants.GET_COUNTRY_WEATHER)
     suspend fun getCountryWeather(
         @Query(Constants.KEY) apiKey: String,
         @Query(Constants.NUM_OF_DAYS) numOfDays: Int,
-        @Query(Constants.FORMAT) format: String,
-        @Query(Constants.QUERY) q: String,
+        @Query(Constants.QUERY_FORMAT) format: String,
+        @Query(Constants.QUERY_QUERY) q: String,
     ): Response<WeatherResponse>
 
 
 
-    @GET(Constants.SEARCH_COUNTRY)
+    @GET(Constants.GET_SEARCH_COUNTRY)
     suspend fun searchCounrty(
         @Query(Constants.KEY) apiKey: String,
-        @Query(Constants.FORMAT) format: String,
-        @Query(Constants.QUERY) q: String,
+        @Query(Constants.QUERY_FORMAT) format: String,
+        @Query(Constants.QUERY_QUERY) q: String,
     ): Response<SearchCountryResponse>
 }
