@@ -32,7 +32,7 @@ class DashboardViewModel @Inject constructor(private val weatherRepository: Weat
 
 
 
-    fun getContryWeather(weatherResponse: WeatherResponse , binding: DashboardSliderBinding,dashboardFragment: DashboardFragment) {
+    fun loadContryWeather(weatherResponse: WeatherResponse, binding: DashboardSliderBinding, dashboardFragment: DashboardFragment) {
         job = viewModelScope.launch(CoroutineExceptionHandler.handler) {
             _weatherUIState.value = ViewState.ShowLoading(true)
             weatherRepository.getWeather(weatherResponse.country).apply {

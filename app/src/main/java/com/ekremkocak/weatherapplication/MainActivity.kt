@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         initView()
         setupNavController()
         binding?.bottomNavigationView?.setupWithNavController(navController)
-
+        supportActionBar?.hide()
     }
 
     private fun initView() {
