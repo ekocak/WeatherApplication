@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.ekremkocak.weatherapplication.R
 import com.ekremkocak.weatherapplication.base.BaseFragment
@@ -30,7 +28,6 @@ class DashboardFragment: BaseFragment() {
     private lateinit var dotsIndicator: DotsIndicator
     private val binding get() = _binding
     private lateinit var uiStateScope: Job
-    private val hashSet = HashSet<RecyclerView>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,7 +89,7 @@ class DashboardFragment: BaseFragment() {
 
     }
     fun getCountryWeather(position: Int,binding: DashboardSliderBinding){
-        viewModel.getContryWeather(viewPagerAdapter.countryArray[position],binding,this)
+        viewModel.loadContryWeather(viewPagerAdapter.countryArray[position],binding,this)
     }
 
     override fun onDestroyView() {

@@ -11,21 +11,19 @@ import com.ekremkocak.weatherapplication.databinding.ItemSearchCountryRecylervie
 import com.ekremkocak.weatherapplication.utils.Constants
 import com.ekremkocak.weatherapplication.utils.Prefs
 
-class SearchCityAdapter(val context: Context, val cityList: List<Result>, var mCityList : MutableSet<String>): RecyclerView.Adapter<ViewHolder>(),CountryItemClickListener {
+class SearchCityAdapter(val context: Context, private val cityList: List<Result>, private var mCityList : MutableSet<String>): RecyclerView.Adapter<ViewHolder>(),CountryItemClickListener {
 
     inner class CountryViewHolder(val binding: ItemSearchCountryRecylerviewBinding) :
         ViewHolder(binding.root) {
 
         }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        println("adapter created")
         val inflater = LayoutInflater.from(parent.context)
         val view = ItemSearchCountryRecylerviewBinding.inflate(inflater,parent,false);
         return CountryViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        println("country count: ${cityList.size}")
         return cityList.size
     }
 
