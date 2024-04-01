@@ -1,13 +1,18 @@
 package com.ekremkocak.weatherapplication.view.dashboard
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
 import com.ekremkocak.weatherapplication.R
 import com.ekremkocak.weatherapplication.base.BaseFragment
@@ -15,6 +20,7 @@ import com.ekremkocak.weatherapplication.databinding.FragmentDashboardBinding
 import com.ekremkocak.weatherapplication.viewmodel.dashboard.DashboardViewModel
 import com.ekremkocak.weatherapplication.adapter.view_pager.ViewPagerAdapter
 import com.ekremkocak.weatherapplication.databinding.DashboardSliderBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -45,6 +51,7 @@ class DashboardFragment: BaseFragment() {
         initView()
         initCollect()
         initListeners()
+        bottomsheet()
 
     }
 
@@ -64,6 +71,19 @@ class DashboardFragment: BaseFragment() {
                     else -> Unit
                 }
             }
+        }
+    }
+    fun bottomsheet(){
+        val sheet = AppCompatResources.getDrawable(
+            requireContext(),
+            R.drawable.ic_search_black
+        )?.let {
+            DashboardBottomSheetFragment.newInstance(
+                "deneme"
+            )
+        }
+        if (sheet != null) {
+            showDialogFragment(sheet, sheet.javaClass.name)
         }
     }
     private fun initListeners() {
@@ -98,6 +118,28 @@ class DashboardFragment: BaseFragment() {
     }
 
 
+    private fun showCustomQuestionDialog(context: Context, question: String) {
+        /*
+        val view = View.inflate(context, R.layout.question_pop_up, null)
+        val textViewQuestion = view.findViewById<TextView>(R.id.text_view_question)
+        val buttonNo = view.findViewById<AppCompatButton>(R.id.button_no)
+        val buttonYes = view.findViewById<AppCompatButton>(R.id.button_yes)
+
+        textViewQuestion.text = question
+
+        val dialog = MaterialAlertDialogBuilder(context, R.style.MaterialDialogStyle).setView(view)
+            .setCancelable(false)
+            .show()
+
+        buttonNo.setOnClickListener {
+            if (dialog.isShowing) {
+                dialog.dismiss()
+            }
+        }
+        buttonYes.setOnClickListener {
+
+        }*/
+    }
 
     private fun initView() {
         viewPager = requireView().findViewById(R.id.view_pager_on_boarding)
