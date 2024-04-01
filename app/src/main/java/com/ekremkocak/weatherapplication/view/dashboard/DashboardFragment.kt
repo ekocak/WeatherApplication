@@ -5,24 +5,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.ekremkocak.weatherapplication.R
 import com.ekremkocak.weatherapplication.base.BaseFragment
 import com.ekremkocak.weatherapplication.databinding.FragmentDashboardBinding
 import com.ekremkocak.weatherapplication.viewmodel.dashboard.DashboardViewModel
 import com.ekremkocak.weatherapplication.adapter.view_pager.ViewPagerAdapter
+import com.ekremkocak.weatherapplication.databinding.DashboardSliderBinding
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class DashboardFragment: BaseFragment() {
 
     private val viewModel: DashboardViewModel by viewModels()
     private var _binding: FragmentDashboardBinding? = null
     private lateinit var viewPager: ViewPager
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var dotsIndicator: DotsIndicator
     private val binding get() = _binding
+    private lateinit var uiStateScope: Job
+    private val hashSet = HashSet<RecyclerView>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,25 +46,32 @@ class DashboardFragment: BaseFragment() {
         _binding = FragmentDashboardBinding.bind(view)
 
         initView()
-
-        /*viewModel.getAllViewModel(
-            Prefs.getKeySharedPreferences(
-                requireContext(),
-                Constants.PREF_TOKEN
-            )
-        )*/
-        setUpRecyclerView()
+        initCollect()
         initListeners()
-       // viewModel.getContryWeather("Turkey");
-
-
-        Navigation.findNavController(requireView()).navigate(R.id.action_dashboardFragment_to_searchFragment)
 
     }
 
+    fun initCollect(){
+        uiStateScope = lifecycleScope.launch {
+            viewModel.weatherUIState.collect {
+                when (it) {
+                    is DashboardViewModel.ViewState.ShowLoading -> {
+                        // mainActivity.progressBar.isVisible = it.isShow
+                    }
+                    is DashboardViewModel.ViewState.ShowErrorMessage -> {
+                        Toast.makeText(requireContext(), getString(R.string.app_name), Toast.LENGTH_SHORT).show()
+                    }
+                    is DashboardViewModel.ViewState.OnLoaded -> {
+                        //binding değiştiği için viewmodelde yaptım
+                    }
+                    else -> Unit
+                }
+            }
+        }
+    }
     private fun initListeners() {
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {//now non required
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -76,8 +91,8 @@ class DashboardFragment: BaseFragment() {
 
 
     }
-    fun getCountryWeather(position: Int){
-        viewModel.getContryWeather(viewPagerAdapter.countryArray[position],viewPagerAdapter.countryBindingList[position])
+    fun getCountryWeather(position: Int,binding: DashboardSliderBinding){
+        viewModel.getContryWeather(viewPagerAdapter.countryArray[position],binding,this)
     }
 
     override fun onDestroyView() {
@@ -85,14 +100,7 @@ class DashboardFragment: BaseFragment() {
         _binding = null
     }
 
-    private fun setUpRecyclerView(){
-        /*
-        viewModel.mSearchList.observe(viewLifecycleOwner) {
-            val adapter = SearchViewParentRVAdapter(requireContext(), it)
-            binding!!.rvSearch.layoutManager = LinearLayoutManager(requireContext())
-            binding!!.rvSearch.adapter = adapter
-        }*/
-    }
+
 
     private fun initView() {
         viewPager = requireView().findViewById(R.id.view_pager_on_boarding)
@@ -100,8 +108,5 @@ class DashboardFragment: BaseFragment() {
         viewPager.adapter = viewPagerAdapter
         dotsIndicator = requireView().findViewById(R.id.dots_indicator)
         dotsIndicator.setViewPager(viewPager)
-
-
-
     }
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.Navigation
-import com.ekremkocak.weatherapplication.adapter.search.SearchCountryAdapter
+import com.ekremkocak.weatherapplication.adapter.search.SearchCityAdapter
 import com.ekremkocak.weatherapplication.base.BaseFragment
 import com.ekremkocak.weatherapplication.databinding.FragmentSearchBinding
 import com.ekremkocak.weatherapplication.utils.Constants
@@ -49,12 +49,12 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun initList(){
-        if (Prefs.getStringListSharedPreferences(requireContext(), Constants.COUNTRY).isNullOrEmpty()){
+        if (Prefs.getStringListSharedPreferences(requireContext(), Constants.CITY).isNullOrEmpty()){
             mCountryList = mutableSetOf()
-            viewModel.mCountryList = mCountryList
+            viewModel.mCityList = mCountryList
         }else{
-            mCountryList = Prefs.getStringListSharedPreferences(requireContext(), Constants.COUNTRY)!!
-            viewModel.mCountryList = mCountryList
+            mCountryList = Prefs.getStringListSharedPreferences(requireContext(), Constants.CITY)!!
+            viewModel.mCityList = mCountryList
         }
 
     }
@@ -76,9 +76,8 @@ class SearchFragment : BaseFragment() {
     private fun setUpRecyclerView(){
 
         viewModel.mList.observe(viewLifecycleOwner) {
-            println("recyler observe")
             it?.let {
-                val adapter = SearchCountryAdapter(requireContext(),it,mCountryList)
+                val adapter = SearchCityAdapter(requireContext(),it,mCountryList)
                 //StaggeredGridLayoutManager(mContext)
                 binding!!.rvSearch.layoutManager = LinearLayoutManager(requireContext())
                 binding!!.rvSearch.adapter = adapter

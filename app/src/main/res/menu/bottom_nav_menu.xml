@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/spring_dot_background"
+        app:showAsAction="ifRoom"
+        android:title="@string/app_name" />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/bg_stroke_view_green"
+        app:showAsAction="ifRoom"
+        android:title="@string/app_name" />
+
+
+
+</menu>
