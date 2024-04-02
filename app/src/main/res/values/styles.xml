@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottonSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/bottomSheet</item>
+    </style>
+
+    <style name="bottomSheet" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+
+
+</resources>

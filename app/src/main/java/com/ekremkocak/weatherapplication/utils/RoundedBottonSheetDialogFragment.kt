@@ -11,6 +11,7 @@ import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ekremkocak.weatherapplication.R as CoreR
 
 
 open class RoundedBottonSheetDialogFragment(
@@ -22,6 +23,8 @@ open class RoundedBottonSheetDialogFragment(
     open val isCoverContent = false
 
     private var dissmissListener: (() -> Unit)? = null
+
+    override fun getTheme(): Int = CoreR.style.BottonSheetDialog
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
