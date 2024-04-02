@@ -1,6 +1,8 @@
 package com.ekremkocak.weatherapplication.data
 
+import com.ekremkocak.weatherapplication.data.network.request.weather.UserSaveChoiceRequest
 import com.ekremkocak.weatherapplication.data.network.response.search.SearchCountryResponse
+import com.ekremkocak.weatherapplication.data.network.response.search.UserSaveChoiceResponse
 import com.ekremkocak.weatherapplication.data.network.response.weather.WeatherResponse
 import com.ekremkocak.weatherapplication.utils.Constants
 import retrofit2.Response
@@ -8,6 +10,8 @@ import retrofit2.http.*
 
 interface AppApi {
 
+    @POST(Constants.CITY)
+    suspend fun eventAcceptanceRejection(@Body request: UserSaveChoiceRequest): UserSaveChoiceResponse
 
     @GET(Constants.GET_COUNTRY_WEATHER)
     suspend fun getCountryWeather(
